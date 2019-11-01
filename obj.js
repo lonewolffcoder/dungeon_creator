@@ -1,5 +1,6 @@
 // output world as an OBJ file
 const World = require('./world.js');
+const fs = require('fs');
 
 class OBJFileWriter {
 
@@ -11,11 +12,11 @@ class OBJFileWriter {
     }
 
     getNextVertexNumber() {
-        return this.vertices.length;
+        return this.vertices.length+1;
     }
 
     getNextFaceNumber() {
-        return this.faces.length;
+        return this.faces.length+1;
     }
 
     addVertex(x,y,z) {
@@ -54,12 +55,15 @@ class OBJFileWriter {
     }
 
     dumpObjFile() {
+        let lines = [];
         for (var vertex of this.vertices) {
-            console.log(`v ${vertex[0]} ${vertex[1]} ${vertex[2]}`);
+            lines.push(`v ${vertex[0]} ${vertex[1]} ${vertex[2]}`);
         }
         for (var face of this.faces) {
-            console.log(`f ${face[0]} ${face[1]} ${face[2]} ${face[3]}`);
+            lines.push(`f ${face[0]} ${face[1]} ${face[2]} ${face[3]}`);
         }
+        const mondo = lines.join("\n");
+        fs.writeFile(this.filename, mondo,  function(err) {console.log("Done");})
     }
 
 };
