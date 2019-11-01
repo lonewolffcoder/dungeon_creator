@@ -32,6 +32,9 @@ class World {
                     case 2:
                         thisrow.push('#');
                         break;
+                    case 3:
+                        thisrow.push('.');
+                        break;
                     default:
                         thisrow.push('?');
                         break;
@@ -56,16 +59,22 @@ class World {
     }
 
     roomAdjacent(minx,miny,maxx,maxy) {
-        // return true if buffer doesn't border on existing
+        // return true if buffer borders on existing
+        // the total area of overlap must be >1 cell
+        // this makes sure we have enough overlap to add a door
+        // and prevents rooms 'kissing at the corners' with no 
+        // space to add a door.
         let result = false;
+        let areaOverlap = 0;
         for (let y=miny;y<maxy;y++) {
             for (let x=minx;x<maxx;x++) {
                 if (this.world[x][y]>0) {
-                    result = true;
+                    //result = true;
+                    areaOverlap += 1;
                 }
             }
         };
-        return result;
+        return areaOverlap > 2;
     }
 
     carveOutRoom(minx,miny,maxx,maxy) {
@@ -87,13 +96,43 @@ class World {
 
     }
 
+
+    placeDoors() {
+        for (let y=0;y<this.height;y++) {
+            for (let x=0;x<this.width;x++) {
+                this.placeDoor(x,y);
+            }
+        };
+    }
+
+    placeDoor(row,col) {
+        // attempt to place a door
+        if (this.world[row][col]!==2) return;
+        if (row<1) return;
+        if (row>this.height-1) return;
+        if (col<1) return;
+        if (col>this.width-1) return;
+        // neighbouring cells
+        let left = col - 1;
+        let right = col + 1;
+        let up = row - 1;
+        let down = row + 1;
+        // vertical?
+        if (this.world[up][col]===1 && 
+            this.world[down][col]===1 &&
+            this.world[row][left]===2 &&
+            this.world[row][right]===2) {
+            this.world[row][col] = 3; // vertical door
+        }
+    }
+
     placeRoom() {
-        const roomWidth = this.randInt(3,9);
-        const roomHeight = this.randInt(3,9);
+        const roomWidth = this.randInt(3,12);
+        const roomHeight = this.randInt(3,12);
         const minx = this.randInt(0,this.width);
         const miny = this.randInt(0,this.height);
         const bufferLeft = minx-1;
-        const bufferRight = minx+roomWidth+1;
+        const bufferRight = minx+roomWidth+2;
         const bufferTop = miny-1;
         const bufferBottom = miny+roomHeight+1;
         if (bufferLeft<0) return;
