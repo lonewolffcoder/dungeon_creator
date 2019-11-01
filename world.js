@@ -33,8 +33,11 @@ class World {
                         thisrow.push('#');
                         break;
                     case 3:
-                        thisrow.push('.');
+                        thisrow.push('.'); // vertical door
                         break;
+                    case 4:
+                        thisrow.push('.'); // horizontal door
+                        break;        
                     default:
                         thisrow.push('?');
                         break;
@@ -74,7 +77,7 @@ class World {
                 }
             }
         };
-        return areaOverlap > 2;
+        return areaOverlap > 4;
     }
 
     carveOutRoom(minx,miny,maxx,maxy) {
@@ -124,15 +127,22 @@ class World {
             this.world[row][right]===2) {
             this.world[row][col] = 3; // vertical door
         }
+        // horizontal?
+        if (this.world[up][col]===2 && 
+            this.world[down][col]===2 &&
+            this.world[row][left]===1 &&
+            this.world[row][right]===1) {
+            this.world[row][col] = 4; // horizontal door
+        }
     }
 
     placeRoom() {
-        const roomWidth = this.randInt(3,12);
-        const roomHeight = this.randInt(3,12);
+        const roomWidth = this.randInt(3,9);
+        const roomHeight = this.randInt(3,9);
         const minx = this.randInt(0,this.width);
         const miny = this.randInt(0,this.height);
         const bufferLeft = minx-1;
-        const bufferRight = minx+roomWidth+2;
+        const bufferRight = minx+roomWidth+1;
         const bufferTop = miny-1;
         const bufferBottom = miny+roomHeight+1;
         if (bufferLeft<0) return;
