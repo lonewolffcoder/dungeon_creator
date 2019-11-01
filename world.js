@@ -16,6 +16,10 @@ class World {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
+    getCellAt(row,col) {
+        return this.world[row][col];
+    }
+   
     dumpAscII() {
         // dump world as ASCII
         let result = [];
