@@ -71,6 +71,17 @@ class OBJFileWriter {
         this.addFace(v1,v2,v3,v4);
         nextFace = this.getNextFaceNumber();
         this.addFace(v5,v6,v7,v8);
+        nextFace = this.getNextFaceNumber();
+        this.addFace(v1,v5,v8,v4);
+        nextFace = this.getNextFaceNumber();
+        this.addFace(v8,v7,v3,v4);
+        nextFace = this.getNextFaceNumber();
+        this.addFace(v1,v5,v6,v2);
+        nextFace = this.getNextFaceNumber();
+        this.addFace(v6,v7,v3,v2);
+        
+        
+        
         
     }
 
