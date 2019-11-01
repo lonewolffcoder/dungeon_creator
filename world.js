@@ -42,6 +42,19 @@ class World {
         return result;
     }
 
+    roomOverlaps(minx,miny,maxx,maxy) {
+        // return true if we overlap an existing room
+        let result = false;
+        for (let y=miny;y<maxy;y++) {
+            for (let x=minx;x<maxx;x++) {
+                if (this.world[x][y]===1) {
+                    result = true;
+                }
+            }
+        };
+        return result;
+    }
+
     roomAdjacent(minx,miny,maxx,maxy) {
         // return true if buffer doesn't border on existing
         let result = false;
@@ -63,12 +76,12 @@ class World {
         const bufferBottom = maxy+1;
         for (let y=bufferTop;y<bufferBottom;y++) {
             for (let x=bufferLeft;x<bufferRight;x++) {
-                this.world[x][y] = 2;
+                this.world[x][y] = 2; // wall tile
             }
         };
         for (let y=miny;y<maxy;y++) {
             for (let x=minx;x<maxx;x++) {
-                this.world[x][y] = 1;
+                this.world[x][y] = 1; // floor tile
             }
         };
 
@@ -90,6 +103,10 @@ class World {
         if (this.rooms>0) {
             // ensure it borders existing room, unless first rooms
             if (!this.roomAdjacent(bufferLeft,bufferTop,bufferRight,bufferBottom)) {
+                return;
+            }
+            // make sure it doesn't overlap
+            if (this.roomOverlaps(bufferLeft,bufferTop,bufferRight,bufferBottom)) {
                 return;
             }
         };
