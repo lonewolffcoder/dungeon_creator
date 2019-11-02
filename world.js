@@ -141,8 +141,8 @@ class World {
     }
 
     placeRoom() {
-        const roomWidth = this.randInt(3,9);
-        const roomHeight = this.randInt(3,9);
+        const roomWidth = this.randInt(3,12);
+        const roomHeight = this.randInt(3,12);
         const minx = this.randInt(0,this.width);
         const miny = this.randInt(0,this.height);
         const bufferLeft = minx-1;
