@@ -67,7 +67,7 @@ class World {
 
     roomAdjacent(minx,miny,maxx,maxy) {
         // return true if buffer borders on existing
-        // the total area of overlap must be >1 cell
+        // the total area of overlap must be >4 cells
         // this makes sure we have enough overlap to add a door
         // and prevents rooms 'kissing at the corners' with no 
         // space to add a door.

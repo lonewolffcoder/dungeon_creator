@@ -63,10 +63,10 @@ class OBJFileWriter {
         this.addVertex(maxx,miny,0);
         this.addVertex(maxx,maxy,0);
         this.addVertex(minx,maxy,0);
-        this.addVertex(minx,miny,1);
-        this.addVertex(maxx,miny,1);
-        this.addVertex(maxx,maxy,1);
-        this.addVertex(minx,maxy,1);
+        this.addVertex(minx,miny,2);
+        this.addVertex(maxx,miny,2);
+        this.addVertex(maxx,maxy,2);
+        this.addVertex(minx,maxy,2);
         let nextFace = this.getNextFaceNumber();
         this.addFace(v1,v2,v3,v4);
         nextFace = this.getNextFaceNumber();
@@ -79,10 +79,6 @@ class OBJFileWriter {
         this.addFace(v1,v5,v6,v2);
         nextFace = this.getNextFaceNumber();
         this.addFace(v6,v7,v3,v2);
-        
-        
-        
-        
     }
 
     addFloorTile(row,col) {
